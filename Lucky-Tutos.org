@@ -1,0 +1,197 @@
+#+latex_class: luckypdf_en
+#+language: en
+#+title: Lucky Tutos
+#+author: Sm!le42
+
+* Installation
+** <<InstallLinuxMint>>Linux Mint
+*** Requirements
+**** *Bootable USB stick* with the [[https://linuxmint.com/edition.php?id=284][live version of Linux Mint *20.1* "Ulyssa" - *Cinnamon(64-bit)*]].
+*** Specifications
+**** *Date of last test:* 2021
+**** *Computer used:*
+
+Laptop *HP*.
+**** *OS used:*
+
+[[https://linuxmint.com/edition.php?id=284][Linux *Mint* *20.1* "Ulyssa" - *Cinnamon(64-bit)*]].
+*** Installation
+**** Plug in the bootable USB stick, and start your computer with the USB. \textcolor{luckydarkgray}{(--> BIOS settings)}
+**** Make sure you are connected to the Internet.
+#+begin_quote
+\color{luckydarkgray}
+*Note:* If you need to type the WiFi password, be aware that your keyboard is set to =QWERTY= by default in a Linux Live version.
+\color{black}
+#+end_quote
+
+**** When you are connected to the Internet, run *"Install Linux Mint"* from the desktop.
+**** Choose your language. \textcolor{luckydarkgray}{(--> Click on Continue)}
+**** Choose your keyboard disposition. \textcolor{luckydarkgray}{(--> Click on Continue)}
+**** Check *"Install multimedia codecs"*. \textcolor{luckydarkgray}{(--> Click on Continue)}
+**** Installation type:
+- Choose first option if you want to reinstall the OS.
+- Choose the second option if you want to install the OS on your entire Drive.
+- Choose the third option if you want to manage partitions manually.
+
+For this tuto, we will choose the third option. \textcolor{luckydarkgray}{(--> Click on Continue)}
+**** Choose the partition where you want to install Linux:
+- Choose *ext4* as files system.
+- check *Format partition*.
+- Choose */* as mounting point.
+
+If you want to have your *home* folder on another partition, select it and:
+- Choose *ext4* as files system.
+- Check *Format partition*
+- Choose */home* as mounting point.
+
+\textcolor{luckydarkgray}{(--> Click on Install now)}
+**** Choose your localisation. \textcolor{luckydarkgray}{(--> Click on Continue)}
+**** Enter your /name/, the /name of your computer/, your /user name/ and your /password/. \textcolor{luckydarkgray}{(--> Click on Continue)}
+**** Wait for the installation to complete. \textcolor{luckydarkgray}{(--> Then click on Restart now)}
+*** Configuration
+**** Click on the shield in the taskbar on the right
+***** Click on *Validate*.
+***** Click on *Apply updates* and enter your password.
+***** On the top there is a message /"Would you like to use a local repository mirror ?"/, click on *Yes* and enter your password.
+***** Click on *Principal* and *Base*, then choose the best server (you can check connection speed on the right).
+***** Click on *Refresh*, then when it's done, click on *Install updates*, then *Validate*, then enter your password.
+***** Now restart your computer.
+*** Notes
+If you want to delete the old OS entries of your BIOS, [[DeleteOldOSBootOptionBIOS][check this tuto]].
+** <<InstallKDE>>KDE Plasma on Linux Mint
+*** Requirements
+**** *OS:*
+
+Linux Mint.
+**** *Internet*
+*** Specifications
+**** *Date of last test:* 2021
+**** *Computer used:*
+
+Laptop *HP*.
+**** *OS used:*
+
+Linux Mint 20.1 "Ulyssa" - Cinnamon(64-bit).
+*** Installation
+**** Open a terminal and type \(\mintinline{java}{"sudo apt-add-repository ppa:kubuntu-ppa/backports"}\).
+
+This will add the repository.
+**** Type \(\mintinline{java}{"sudo apt-get update"}\) to update.
+**** Type \(\mintinline{java}{"sudo apt-get install kubuntu-desktop kde-plasma-desktop kscreen"}\) to install KDE.
+**** Accept everything and choose between *lightdm* and *sddm*.
+- If you choose lightdm, you will keep the Cinnamon login screen.
+- If you choose sddm, you will have the KDE login screen.
+**** Restart your computer, and before typing your password:
+- For the Cinnamon login screen, click on the little icon above right of the user name, then choose *Plasma*
+- For the SDDM login screen, click on *Cinnamon* on the top left of the screen, then choose *Plasma*.
+#+begin_quote
+\color{luckydarkgray}
+*Note:*
+The KDE default login screen was very buggy when I installed KDE on my computer. So if you have a /big virtual keyboard/ on your screen when you boot the computer, click on the icon to minimize the keyboard (on the top right), as with Android.
+
+If you want to solve this issue, [[IssuesddmKDELoginScreen][check this topic]].
+#+end_quote
+
+* How to
+** <<DeleteOldOSBootOptionBIOS>>Delete old OS boot option in the BIOS
+*** Requirements
+**** *Bootable USB stick* with a [[https://linuxmint.com/download.php][live version of Linux]].
+*** Specifications
+**** *Date of last test:* 2021
+**** *Computer used:*
+
+Laptop *HP*.
+**** *OS used:*
+
+Linux *Mint* 20.1 - Cinnamon(64-bit).
+*** How to
+Let's delete it using a Linux Live USB stick.
+**** Open a terminal and type \(\mintinline{java}{"efibootmgr"}\)
+***** Check the boot option you want to delete
+#+begin_quote
+\color{luckydarkgray}
+For example, here, I want to delete *Manjaro*, so the option is *0003*:
+
+:~$ efibootmgr
+| BootCurrent:                    | 0000                                   |
+| TimeOut:                        | 0 seconds                              |
+| BootOrder:                      | 2001,0000,3000,0001,2002,2004          |
+| Boot0000*                       | Ubuntu                                 |
+| Boot0001*                       | Windows Boot Manager                   |
+| \color{luckydarkred}{Boot0003*} | \color{luckydarkred}{Manjaro}          |
+| Boot2001*                       | EFI USB Device                         |
+| Boot3000*                       | Internal Hard Disk or Solid State Disk |
+| Boot3001*                       | Internal Hard Disk or Solid State Disk |
+#+end_quote
+***** Now type \(\mintinline{java}{"sudo efibootmgr -b [X] -B"}\), but replace the [X] with the boot number of the option you want to delete
+#+begin_quote
+\color{luckydarkgray}
+In my case, I type \(\mintinline{java}{"sudo efibootmgr -b 0003 -B"}\)
+#+end_quote
+**** Boot the computer using the bootable USB stick
+
+#+begin_quote
+If you are using an /AZERTY/ keyboard, you need to configure it in Linux Live:
+
+Start the installation of Linux (icon on desktop), choose your language, click on "Next", choose your keyboard language, click on "Next", and then exit the installation.
+
+(Of course you can change it in the settings, but this is a quick way to do it)
+#+end_quote
+**** Open a terminal and type \(\mintinline{java}{"sudo fdisk -l"}\)
+
+You can see the disks of your computer. Check the path of the disk with the type *EFI System*.
+
+#+begin_quote
+\color{luckydarkgray}
+In my case, the right path is *dev/sdb1*
+
+:~$ sudo fdisk -l
+| Device                          |     Start |       End |   Sectors | Size  | Type                             |
+|---------------------------------+-----------+-----------+-----------+-------+----------------------------------|
+| \color{luckydarkred}{/dev/sdb1}  |      2048 |    534527 |    532840 | 260M  | \color{luckydarkred}{EFI System} |
+| /dev/sdb2                       |    534528 |    567295 |     32768 | 16M   | Microsoft Reserved               |
+| /dev/sdb3                       |    567296 | 121608191 | 121040896 | 57.7G | Microsoft Basic Data             |
+| /dev/sdb4                       | 121608192 | 250068991 | 128460800 | 61.3G | Linux File System                |
+#+end_quote
+
+**** Now let's mount this partition
+***** Type \(\mintinline{java}{"mkdir /home/mint/temp"}\) to create a folder *temp* in *\text{/home/mint/}*.
+***** Type \(\mintinline{java}{"sudo mount [X] /home/mint/temp/"}\), but replace the [X] with the path of your *EFI System*.
+#+begin_quote
+\color{luckydarkgray}
+In my case, I type *\text{sudo mount /dev/sdb1 /home/mint/temp/}*
+#+end_quote
+***** Type \(\mintinline{java}{"cd /home/mint/temp"}\) to enter the folder *temp*.
+***** Type \(\mintinline{java}{"ls"}\) and press enter. You should see a folder named *EFI*.
+***** Type \(\mintinline{java}{"cd EFI/"}\) to enter this folder.
+***** Type \(\mintinline{java}{"ls"}\) and press enter. You should see your boot options.
+***** Type \(\mintinline{java}{"sudo rm -rf [X]"}\), but replace the [X] with the boot option you want to delete. Be careful here...
+#+begin_quote
+\color{luckydarkgray}
+In my case, I type *sudo rm -rf Manjaro*
+#+end_quote
+* Programming
+** Coming soon
+=Empty for now...=
+* Issue
+** <<IssuesddmKDELoginScreen>>Graphical bug with sddm KDE login screen
+*** Issue
+When the login screen should appear, instead there is a huge virtual keyboard that fills the entire screen.
+*** Specifications
+**** *Date:* 2021
+
+**** *OS used:*
+
+Linux Mint 20.1 "Ulyssa" - Cinnamon(64-bit)
+**** *KDE version used:*
+
+KDE Plasma 5
+*** Solution
+Change the *sddm login screen theme*:
+
+- Open *System configuration*
+- Choose *Login screen (SDDM)*
+- Click on *Get new login screens*
+- Download a new theme (I recommend *Chill for Plasma*)
+- Activate it
+- \textcolor{luckydarkgray}{(--> Click on Apply)}
